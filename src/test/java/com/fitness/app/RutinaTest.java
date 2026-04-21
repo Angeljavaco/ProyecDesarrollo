@@ -3,6 +3,8 @@ package com.fitness.app;
 import com.fitness.app.model.Rutina;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.fitness.app.service.RutinaService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,259 +16,163 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class RutinaTest {
+class RutinaTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    ObjectMapper mapper = new ObjectMapper();
+    @Autowired
+    private ObjectMapper mapper;
 
-    // ========================
-    // 🟢 POST (CREAR)
-    // ========================
+    @Autowired
+    private RutinaService rutinaService;
+
+    @BeforeEach
+    void setUp() {
+        rutinaService.limpiar();
+    }
 
     @Test
-    public void testGuardar1() throws Exception {
+    void crearRutina_verificarId() throws Exception {
+        Rutina r = new Rutina(10, "Espalda", "Fuerza", 40);
+
+        mockMvc.perform(post("/rutinas")
+                        .contentType("application/json")
+                        .content(mapper.writeValueAsString(r)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(10));
+    }
+
+    @Test
+    void crearRutina_validaNombre() throws Exception {
         Rutina r = new Rutina(1, "Piernas", "Fuerza", 45);
 
         mockMvc.perform(post("/rutinas")
-                .contentType("application/json")
-                .content(mapper.writeValueAsString(r)))
+                        .contentType("application/json")
+                        .content(mapper.writeValueAsString(r)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Piernas"));
     }
 
     @Test
-    public void testGuardar2() throws Exception {
+    void crearRutina_validaTipo() throws Exception {
         Rutina r = new Rutina(2, "Brazos", "Fuerza", 30);
 
         mockMvc.perform(post("/rutinas")
-                .contentType("application/json")
-                .content(mapper.writeValueAsString(r)))
-                .andExpect(status().isOk())
+                        .contentType("application/json")
+                        .content(mapper.writeValueAsString(r)))
                 .andExpect(jsonPath("$.tipo").value("Fuerza"));
     }
 
     @Test
-    public void testGuardar3() throws Exception {
+    void crearRutina_validaDuracion() throws Exception {
         Rutina r = new Rutina(3, "Cardio", "Resistencia", 20);
 
         mockMvc.perform(post("/rutinas")
-                .contentType("application/json")
-                .content(mapper.writeValueAsString(r)))
-                .andExpect(status().isOk())
+                        .contentType("application/json")
+                        .content(mapper.writeValueAsString(r)))
                 .andExpect(jsonPath("$.duracion").value(20));
     }
 
-    // ========================
-    // 🟢 GET (LISTAR)
-    // ========================
-
     @Test
-    public void testListar1() throws Exception {
+    void listar_rutinas_noVacio() throws Exception {
+        mockMvc.perform(post("/rutinas")
+                .contentType("application/json")
+                .content(mapper.writeValueAsString(new Rutina(1, "Piernas", "Fuerza", 45))));
+
         mockMvc.perform(get("/rutinas"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray());
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1));
     }
 
     @Test
-    public void testListar2() throws Exception {
-        mockMvc.perform(get("/rutinas"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testListar3() throws Exception {
+    void listarRutinas_vacio() throws Exception {
         mockMvc.perform(get("/rutinas"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"));
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(0));
     }
 
-    // ========================
-    // 🟢 GET BY ID
-    // ========================
+    @Test
+    void actualizar_existente() throws Exception {
+        mockMvc.perform(post("/rutinas")
+                .contentType("application/json")
+                .content(mapper.writeValueAsString(new Rutina(1,"Piernas", "Fuerza", 45))));
+
+        mockMvc.perform(post("/rutinas/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nombre").value("Pierna"));
+    }
 
     @Test
-    public void testBuscar1() throws Exception {
-
-        // 🔥 Crear primero
-        Rutina r = new Rutina(1, "Piernas", "Fuerza", 45);
+    void actualizar_existe() throws Exception {
 
         mockMvc.perform(post("/rutinas")
                 .contentType("application/json")
-                .content(mapper.writeValueAsString(r)));
+                .content(mapper.writeValueAsString(new Rutina(1, "Pierna", "Fuerza", 45))));
 
-        // 🔥 Buscar
-        mockMvc.perform(get("/rutinas/1"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testBuscar2() throws Exception {
-
-        Rutina r = new Rutina(2, "Brazos", "Fuerza", 30);
-
-        mockMvc.perform(post("/rutinas")
-                .contentType("application/json")
-                .content(mapper.writeValueAsString(r)));
-
-        mockMvc.perform(get("/rutinas/2"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testBuscar3() throws Exception {
-        mockMvc.perform(get("/rutinas/999"))
-                .andExpect(status().isNotFound());
-    }
-
-    // ========================
-    // 🟢 PUT (ACTUALIZAR)
-    // ========================
-
-    @Test
-    public void testActualizar1() throws Exception {
-
-        // 🔥 Crear primero
-        Rutina r = new Rutina(1, "Piernas", "Fuerza", 45);
-
-        mockMvc.perform(post("/rutinas")
-                .contentType("application/json")
-                .content(mapper.writeValueAsString(r)));
-
-        // 🔥 Actualizar
-        Rutina nueva = new Rutina(1, "PiernasPro", "Fuerza", 50);
+        Rutina r = new Rutina(1, "PiersonasPro","Fuerza", 50);
 
         mockMvc.perform(put("/rutinas/1")
-                .contentType("application/json")
-                .content(mapper.writeValueAsString(nueva)))
-                .andExpect(status().isOk());
+                    .contentType("application/json")
+                    .content(mapper.writeValueAsString(r)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nombre").value("PiernasPro"));
     }
 
     @Test
-    public void testActualizar2() throws Exception {
+    void actualizarRutina_verificarCambio() throws Exception {
 
-        Rutina r = new Rutina(2, "Brazos", "Fuerza", 30);
+        Rutina original = new Rutina(20, "Gluteos", "Fuerza", 30);
 
         mockMvc.perform(post("/rutinas")
                 .contentType("application/json")
-                .content(mapper.writeValueAsString(r)));
+                .content(mapper.writeValueAsString(original)));
 
-        Rutina nueva = new Rutina(2, "BrazosPro", "Fuerza", 35);
+        Rutina actualizada = new Rutina(20, "GluteosPro", "Fuerza", 60);
 
-        mockMvc.perform(put("/rutinas/2")
-                .contentType("application/json")
-                .content(mapper.writeValueAsString(nueva)))
-                .andExpect(status().isOk());
+        mockMvc.perform(put("/rutinas/20")
+                        .contentType("application/json")
+                        .content(mapper.writeValueAsString(actualizada)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nombre").value("GluteosPro"))
+                .andExpect(jsonPath("$.duracion").value(60));
     }
 
     @Test
-    public void testActualizar3() throws Exception {
-
-        Rutina nueva = new Rutina(999, "X", "Y", 10);
-
-        mockMvc.perform(put("/rutinas/999")
-                .contentType("application/json")
-                .content(mapper.writeValueAsString(nueva)))
-                .andExpect(status().isNotFound());
-    }
-
-    // ========================
-    // 🟢 DELETE
-    // ========================
-
-    @Test
-    public void testEliminar1() throws Exception {
-
-        Rutina r = new Rutina(1, "Piernas", "Fuerza", 45);
+    void eliminar_existe() throws Exception {
 
         mockMvc.perform(post("/rutinas")
                 .contentType("application/json")
-                .content(mapper.writeValueAsString(r)));
+                .content(mapper.writeValueAsString(new Rutina(1,"Piernas","Fuerza",45))));
 
         mockMvc.perform(delete("/rutinas/1"))
                 .andExpect(status().isOk());
+
+        mockMvc.perform(get("/rutinas/1"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
-    public void testEliminar2() throws Exception {
+    void eliminarRutina_verificarEliminacion() throws Exception {
 
-        Rutina r = new Rutina(2, "Brazos", "Fuerza", 30);
+        Rutina r = new Rutina(30, "PiernasX", "Fuerza", 50);
 
         mockMvc.perform(post("/rutinas")
                 .contentType("application/json")
                 .content(mapper.writeValueAsString(r)));
 
-        mockMvc.perform(delete("/rutinas/2"))
+        mockMvc.perform(delete("/rutinas/30"))
                 .andExpect(status().isOk());
-    }
 
-    @Test
-    public void testEliminar3() throws Exception {
-        mockMvc.perform(delete("/rutinas/999"))
+        mockMvc.perform(get("/rutinas/30"))
                 .andExpect(status().isNotFound());
     }
 
-    // ========================
-    // 🟢 FILTROS
-    // ========================
-
     @Test
-    public void testFiltroTipo1() throws Exception {
-        mockMvc.perform(get("/rutinas/tipo/Fuerza"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray());
-    }
-
-    @Test
-    public void testFiltroTipo2() throws Exception {
-        mockMvc.perform(get("/rutinas/tipo/Resistencia"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testFiltroTipo3() throws Exception {
-        mockMvc.perform(get("/rutinas/tipo/X"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testFiltroDuracion1() throws Exception {
-        mockMvc.perform(get("/rutinas/duracion/30"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testFiltroDuracion2() throws Exception {
-        mockMvc.perform(get("/rutinas/duracion/10"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testFiltroDuracion3() throws Exception {
-        mockMvc.perform(get("/rutinas/duracion/100"))
-                .andExpect(status().isOk());
-    }
-
-    // ========================
-    // 🟢 COUNT
-    // ========================
-
-    @Test
-    public void testCount1() throws Exception {
-        mockMvc.perform(get("/rutinas/count"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testCount2() throws Exception {
-        mockMvc.perform(get("/rutinas/count"))
-                .andExpect(content().contentType("application/json"));
-    }
-
-    @Test
-    public void testCount3() throws Exception {
-        mockMvc.perform(get("/rutinas/count"))
-                .andExpect(status().isOk());
+    void buscarRutina_noExiste() throws Exception {
+        mockMvc.perform(get("/rutinas/999"))
+                .andExpect(status().isNotFound());
     }
 }

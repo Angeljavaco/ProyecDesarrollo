@@ -37,7 +37,12 @@ public class RutinaService {
         return r;
     }
 
+    public void limpiar() {
+        lista.clear();
+    }
+
     public boolean eliminar(int id) {
         return lista.removeIf(r -> r.getId() == id);
     }
+
 }
