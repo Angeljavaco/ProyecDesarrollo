@@ -5,12 +5,23 @@ import com.fitness.app.service.RutinaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/stats")
 public class StatsController {
     private final RutinaService service;
     public StatsController(RutinaService service) {
         this.service = service;
+    }
+
+    @GetMapping
+    public ResponseEntity<Map<String, String>> statsInfo() {
+        return ResponseEntity.ok(Map.of(
+                "total", "/stats/total",
+                "promedio", "/stats/duracionPromedio",
+                "max", "/stats/max"
+        ));
     }
 
     @GetMapping("/total")

@@ -3,7 +3,9 @@ package com.fitness.app;
 import com.fitness.app.model.Rutina;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.fitness.app.service.RutinaService;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,6 +25,14 @@ class StatsTest {
     @Autowired
     private ObjectMapper mapper;
 
+    @Autowired
+    private RutinaService rutinaService;
+
+    @BeforeEach
+    void setUp() {
+        rutinaService.limpiar();
+    }
+
     @Test
     void total_valido() throws Exception {
         mockMvc.perform(get("/stats/total"))
@@ -31,15 +41,25 @@ class StatsTest {
     }
 
     @Test
-    void total_noNegativo() throws Exception {
-        mockMvc.perform(get("/stats/total"))
-                .andExpect(jsonPath("$").value(Matchers.greaterThanOrEqualTo(0)));
-    }
-
-    @Test
     void total_tipoCorrecto() throws Exception {
         mockMvc.perform(get("/stats/total"))
                 .andExpect(content().contentType("application/json"));
+    }
+
+    @Test
+    void total_valorCorrecto() throws Exception {
+
+        mockMvc.perform(post("/rutinas")
+                .contentType("application/json")
+                .content(mapper.writeValueAsString(new Rutina(1, "A", "Fuerza", 10))));
+
+        mockMvc.perform(post("/rutinas")
+                .contentType("application/json")
+                .content(mapper.writeValueAsString(new Rutina(2, "B", "Fuerza", 20))));
+
+        mockMvc.perform(get("/stats/total"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(2));
     }
 
     @Test
@@ -59,13 +79,15 @@ class StatsTest {
     @Test
     void promedio_rangoValido() throws Exception {
         mockMvc.perform(get("/stats/duracionPromedio"))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(Matchers.greaterThanOrEqualTo(0)));
     }
 
     @Test
-    void promedio_tipoCorrecto() throws Exception {
+    void promedio_vacio() throws Exception {
         mockMvc.perform(get("/stats/duracionPromedio"))
-                .andExpect(content().contentType("application/json"));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(0));
     }
 
     @Test
@@ -94,6 +116,7 @@ class StatsTest {
     @Test
     void max_noNegativo() throws Exception {
         mockMvc.perform(get("/stats/max"))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(Matchers.greaterThanOrEqualTo(0)));
     }
 

@@ -59,8 +59,9 @@ class RutinaTest {
         Rutina r = new Rutina(2, "Brazos", "Fuerza", 30);
 
         mockMvc.perform(post("/rutinas")
-                        .contentType("application/json")
-                        .content(mapper.writeValueAsString(r)))
+                .contentType("application/json")
+                .content(mapper.writeValueAsString(r)))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.tipo").value("Fuerza"));
     }
 
@@ -69,8 +70,9 @@ class RutinaTest {
         Rutina r = new Rutina(3, "Cardio", "Resistencia", 20);
 
         mockMvc.perform(post("/rutinas")
-                        .contentType("application/json")
-                        .content(mapper.writeValueAsString(r)))
+                .contentType("application/json")
+                .content(mapper.writeValueAsString(r)))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.duracion").value(20));
     }
 
@@ -100,25 +102,24 @@ class RutinaTest {
                 .contentType("application/json")
                 .content(mapper.writeValueAsString(new Rutina(1,"Piernas", "Fuerza", 45))));
 
-        mockMvc.perform(post("/rutinas/1"))
+        Rutina r = new Rutina(1, "Pierna", "Fuerza", 46);
+
+        mockMvc.perform(put("/rutinas/1")
+                .contentType("application/json")
+                .content(mapper.writeValueAsString(r)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Pierna"));
     }
 
     @Test
-    void actualizar_existe() throws Exception {
+    void actualizar_noExiste() throws Exception {
 
-        mockMvc.perform(post("/rutinas")
-                .contentType("application/json")
-                .content(mapper.writeValueAsString(new Rutina(1, "Pierna", "Fuerza", 45))));
+        Rutina r = new Rutina(999, "Test","Fuerza", 10);
 
-        Rutina r = new Rutina(1, "PiersonasPro","Fuerza", 50);
-
-        mockMvc.perform(put("/rutinas/1")
-                    .contentType("application/json")
-                    .content(mapper.writeValueAsString(r)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nombre").value("PiernasPro"));
+        mockMvc.perform(put("/rutinas/999")
+                        .contentType("application/json")
+                        .content(mapper.writeValueAsString(r)))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -155,6 +156,12 @@ class RutinaTest {
     }
 
     @Test
+    void eliminar_noExiste() throws Exception {
+        mockMvc.perform(delete("/rutinas/999"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     void eliminarRutina_verificarEliminacion() throws Exception {
 
         Rutina r = new Rutina(30, "PiernasX", "Fuerza", 50);
@@ -174,5 +181,19 @@ class RutinaTest {
     void buscarRutina_noExiste() throws Exception {
         mockMvc.perform(get("/rutinas/999"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void buscarRutina_existe() throws Exception {
+
+        Rutina r = new Rutina(1, "Piernas", "Fuerza", 45);
+
+        mockMvc.perform(post("/rutinas")
+                .contentType("application/json")
+                .content(mapper.writeValueAsString(r)));
+
+        mockMvc.perform(get("/rutinas/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nombre").value("Piernas"));
     }
 }
