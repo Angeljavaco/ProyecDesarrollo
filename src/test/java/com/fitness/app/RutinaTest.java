@@ -53,7 +53,7 @@ class RutinaTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Piernas"));
     }
-
+    
     @Test
     void crearRutina_validaTipo() throws Exception {
         Rutina r = new Rutina(2, "Brazos", "Fuerza", 30);
