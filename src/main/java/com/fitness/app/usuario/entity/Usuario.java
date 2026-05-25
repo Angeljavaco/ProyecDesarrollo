@@ -1,6 +1,7 @@
 package com.fitness.app.usuario.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "usuario")
@@ -10,13 +11,17 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank
     private String nombre;
 
+    @NotBlank
     @Column(unique = true)
     private String email;
 
+    @NotBlank
     private String password;
 
+    @NotBlank
     private String telefono;
 
     public Usuario() {

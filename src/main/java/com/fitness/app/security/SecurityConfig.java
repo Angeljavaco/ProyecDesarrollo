@@ -23,9 +23,33 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
-                        .requestMatchers("/api/roles/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+
+                        .requestMatchers(HttpMethod.POST, "/api/auth/**")
+                        .permitAll()
+
+                        .requestMatchers(HttpMethod.POST
+                            ,"api/usuarios").permitAll()
+
+                        .requestMatchers("/api/roles/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers("/api/rol-usuario/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.DELETE, "/api/usuarios/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/api/clases/**")
+                        .hasAnyRole("TRAINER", "ADMIN")
+
+                        .requestMatchers(HttpMethod.PUT, "/api/clases/**")
+                        .hasAnyRole("TRAINER", "ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/api/reservas/**")
+                        .hasAnyRole("MEMBER", "ADMIN")
+
+                        .anyRequest()
+                        .authenticated()
                 );
 
         http.addFilterBefore(

@@ -5,7 +5,9 @@ import com.fitness.app.auth.dto.AuthResponse;
 import com.fitness.app.security.JwtService;
 import com.fitness.app.usuario.entity.Usuario;
 import com.fitness.app.usuario.repository.UsuarioRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AuthService {
@@ -24,10 +26,16 @@ public class AuthService {
 
         Usuario usuario = usuarioRepository
                 .findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() ->
+                        new ResponseStatusException
+                            (HttpStatus.UNAUTHORIZED,
+                            "Usuario no encontrado"));
 
         if (!usuario.getPassword().equals(request.getPassword())) {
-            throw new RuntimeException("Password incorrecto");
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Credenciales incorrectas"
+            );
         }
 
         String token = jwtService.generarToken(usuario.getEmail());

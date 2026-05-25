@@ -2,6 +2,7 @@ package com.fitness.app.usuario.controller;
 
 import com.fitness.app.usuario.entity.Usuario;
 import com.fitness.app.usuario.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public Usuario crearUsuario(@RequestBody Usuario usuario) {
+    public Usuario crearUsuario(@Valid @RequestBody Usuario usuario) {
         return usuarioService.crearUsuario(usuario);
     }
 
@@ -25,4 +26,10 @@ public class UsuarioController {
     public List<Usuario> listarUsuarios() {
         return usuarioService.listarUsuarios();
     }
+
+    @DeleteMapping("/{id}")
+    public void eliminarUsuario(@PathVariable int id) {
+        usuarioService.eliminarUsuario(id);
+    }
+
 }
