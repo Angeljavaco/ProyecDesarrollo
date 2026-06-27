@@ -1,0 +1,106 @@
+<section>
+  <h1 class="h3 mb-3">Formulario Actualizar Clase</h1>
+  <p class="text-secondary">Consume <code>GET /api/clases</code>, <code>PUT /api/clases/:id</code> y tambien permite probar <code>DELETE /api/clases/:id</code>.</p>
+
+  <form class="form-panel mb-4" [formGroup]="form" (ngSubmit)="actualizarClase()" novalidate>
+    @if (successMessage) {
+      <div class="alert alert-success">{{ successMessage }}</div>
+    }
+
+    @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    }
+
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label class="form-label required" for="id">ID</label>
+        <input id="id" class="form-control" type="number" formControlName="id" min="1">
+        @if (isInvalid('id')) {
+          <div class="invalid-feedback d-block">Ingresa un ID valido.</div>
+        }
+      </div>
+
+      <div class="col-md-5">
+        <label class="form-label required" for="nombre">Nombre</label>
+        <input id="nombre" class="form-control" type="text" formControlName="nombre">
+        @if (isInvalid('nombre')) {
+          <div class="invalid-feedback d-block">El nombre es obligatorio.</div>
+        }
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label required" for="trainer">Trainer</label>
+        <input id="trainer" class="form-control" type="text" formControlName="trainer">
+        @if (isInvalid('trainer')) {
+          <div class="invalid-feedback d-block">El trainer es obligatorio.</div>
+        }
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label required" for="cupos">Cupos</label>
+        <input id="cupos" class="form-control" type="number" formControlName="cupos" min="1">
+        @if (isInvalid('cupos')) {
+          <div class="invalid-feedback d-block">Los cupos deben ser mayores que cero.</div>
+        }
+      </div>
+
+      <div class="col-md-9">
+        <label class="form-label required" for="descripcion">Descripcion</label>
+        <input id="descripcion" class="form-control" type="text" formControlName="descripcion">
+        @if (isInvalid('descripcion')) {
+          <div class="invalid-feedback d-block">La descripcion debe tener al menos 5 caracteres.</div>
+        }
+      </div>
+    </div>
+
+    <button class="btn btn-primary mt-4" type="submit" [disabled]="loading">
+      {{ loading ? 'Procesando...' : 'Actualizar clase' }}
+    </button>
+    <button class="btn btn-outline-secondary mt-4 ms-2" type="button" (click)="cargarClases()" [disabled]="loadingList">
+      Actualizar lista
+    </button>
+  </form>
+
+  <div class="form-panel">
+    <h2 class="h5">Clases existentes</h2>
+    @if (loadingList) {
+      <p class="text-secondary mb-0">Cargando clases...</p>
+    } @else {
+      <div class="table-wrapper">
+        <table class="table table-sm align-middle">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Trainer</th>
+              <th>Cupos</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (clase of clases; track clase.id) {
+              <tr>
+                <td>{{ clase.id }}</td>
+                <td>{{ clase.nombre }}</td>
+                <td>{{ clase.trainer }}</td>
+                <td>{{ clase.cupos }}</td>
+                <td>
+                  <button class="btn btn-outline-primary btn-sm me-2" type="button" (click)="seleccionarClase(clase)">
+                    Editar
+                  </button>
+                  <button class="btn btn-outline-danger btn-sm" type="button" (click)="eliminarClase(clase.id)" [disabled]="loading">
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="text-secondary">No hay clases para mostrar.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</section>

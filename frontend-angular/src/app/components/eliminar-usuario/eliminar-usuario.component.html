@@ -1,0 +1,69 @@
+<section>
+  <h1 class="h3 mb-3">Formulario Eliminar Usuario</h1>
+  <p class="text-secondary">Consume <code>GET /api/usuarios</code> para mostrar usuarios y <code>DELETE /api/usuarios/:id</code> para eliminar.</p>
+
+  <form class="form-panel mb-4" [formGroup]="form" (ngSubmit)="eliminarUsuario()" novalidate>
+    @if (successMessage) {
+      <div class="alert alert-success">{{ successMessage }}</div>
+    }
+
+    @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    }
+
+    <div class="mb-3">
+      <label class="form-label required" for="id">ID de usuario</label>
+      <input id="id" class="form-control" type="number" formControlName="id" min="1">
+      @if (isInvalid('id')) {
+        <div class="invalid-feedback d-block">Ingresa un ID mayor que cero.</div>
+      }
+    </div>
+
+    <button class="btn btn-danger" type="submit" [disabled]="loading">
+      {{ loading ? 'Eliminando...' : 'Eliminar usuario' }}
+    </button>
+    <button class="btn btn-outline-secondary ms-2" type="button" (click)="cargarUsuarios()" [disabled]="loadingList">
+      Actualizar lista
+    </button>
+  </form>
+
+  <div class="form-panel">
+    <h2 class="h5">Usuarios existentes</h2>
+    @if (loadingList) {
+      <p class="text-secondary mb-0">Cargando usuarios...</p>
+    } @else {
+      <div class="table-wrapper">
+        <table class="table table-sm align-middle">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Telefono</th>
+              <th>Accion</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (usuario of usuarios; track usuario.id) {
+              <tr>
+                <td>{{ usuario.id }}</td>
+                <td>{{ usuario.nombre }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>{{ usuario.telefono }}</td>
+                <td>
+                  <button class="btn btn-outline-danger btn-sm" type="button" (click)="seleccionarUsuario(usuario.id)">
+                    Usar ID
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="text-secondary">No hay usuarios para mostrar.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</section>

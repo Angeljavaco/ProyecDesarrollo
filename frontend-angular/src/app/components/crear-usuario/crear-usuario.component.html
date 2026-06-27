@@ -1,0 +1,52 @@
+<section>
+  <h1 class="h3 mb-3">Formulario Crear Usuario</h1>
+  <p class="text-secondary">Consume <code>POST /api/usuarios</code>.</p>
+
+  <form class="form-panel" [formGroup]="form" (ngSubmit)="crearUsuario()" novalidate>
+    @if (successMessage) {
+      <div class="alert alert-success">{{ successMessage }}</div>
+    }
+
+    @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    }
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label required" for="nombre">Nombre</label>
+        <input id="nombre" class="form-control" type="text" formControlName="nombre">
+        @if (isInvalid('nombre')) {
+          <div class="invalid-feedback d-block">El nombre es obligatorio.</div>
+        }
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label required" for="email">Email</label>
+        <input id="email" class="form-control" type="email" formControlName="email">
+        @if (isInvalid('email')) {
+          <div class="invalid-feedback d-block">Ingresa un correo valido.</div>
+        }
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label required" for="password">Password</label>
+        <input id="password" class="form-control" type="password" formControlName="password">
+        @if (isInvalid('password')) {
+          <div class="invalid-feedback d-block">La contrasena debe tener al menos 4 caracteres.</div>
+        }
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label required" for="telefono">Telefono</label>
+        <input id="telefono" class="form-control" type="text" formControlName="telefono">
+        @if (isInvalid('telefono')) {
+          <div class="invalid-feedback d-block">Usa solo numeros, entre 7 y 15 digitos.</div>
+        }
+      </div>
+    </div>
+
+    <button class="btn btn-primary mt-4" type="submit" [disabled]="loading">
+      {{ loading ? 'Guardando...' : 'Crear usuario' }}
+    </button>
+  </form>
+</section>
