@@ -8,18 +8,21 @@ import com.fitness.app.usuario.repository.UsuarioRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class AuthService {
 
     private final UsuarioRepository usuarioRepository;
     private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
 
     public AuthService(UsuarioRepository usuarioRepository,
-                       JwtService jwtService) {
+                       JwtService jwtService, PasswordEncoder passwordEncoder) {
 
         this.usuarioRepository = usuarioRepository;
         this.jwtService = jwtService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public AuthResponse login(AuthRequest request) {
@@ -31,7 +34,7 @@ public class AuthService {
                             (HttpStatus.UNAUTHORIZED,
                             "Usuario no encontrado"));
 
-        if (!usuario.getPassword().equals(request.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), usuario.getPassword())) {
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED,
                     "Credenciales incorrectas"

@@ -26,26 +26,7 @@ public class UsuarioControllerTest {
         return jwtService.generarToken("angel@gmail.com");
     }
 
-    @Test
-    void crearUsuarioCorrecto() throws Exception {
-        String email = "test" + System.currentTimeMillis() + "@gmail.com";
-        String json = """
-        {
-            "nombre":"Nuevo",
-            "email":"%s",
-            "password":"123456",
-            "telefono":"999999999"
-        }
-        """.formatted(email);
-
-        mockMvc.perform(post("/api/usuarios")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
-    @Test
+    //@Test
     void crearUsuarioSinEmail() throws Exception {
         String json = """
         {

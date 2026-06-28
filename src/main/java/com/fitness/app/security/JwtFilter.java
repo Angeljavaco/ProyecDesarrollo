@@ -97,6 +97,9 @@ public class JwtFilter extends OncePerRequestFilter {
                             )
                     );
                 }
+                System.out.println("URL: " + request.getRequestURI());
+                System.out.println("EMAIL: " + email);
+                System.out.println("AUTHORITIES: " + authorities);
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
@@ -120,5 +123,9 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return request.getServletPath().equals("/api/auth/login");
     }
 }

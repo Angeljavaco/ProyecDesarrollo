@@ -3,6 +3,7 @@ package com.fitness.app.usuario.service;
 import com.fitness.app.usuario.entity.Usuario;
 import com.fitness.app.usuario.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -10,12 +11,17 @@ import java.util.List;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Usuario crearUsuario(Usuario usuario) {
+        usuario.setPassword(
+            passwordEncoder.encode(usuario.getPassword())
+        );
         return usuarioRepository.save(usuario);
     }
 
