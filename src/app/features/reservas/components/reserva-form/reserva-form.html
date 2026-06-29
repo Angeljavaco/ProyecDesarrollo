@@ -1,0 +1,40 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="rounded-xl bg-white p-6 shadow space-y-4">
+  <h2 class="text-lg font-semibold text-slate-900">
+    Crear reserva
+  </h2>
+
+  <input
+    type="number"
+    class="w-full rounded-lg border px-4 py-2"
+    placeholder="ID Usuario"
+    formControlName="idUsuario"
+  />
+
+  <input
+    type="number"
+    class="w-full rounded-lg border px-4 py-2"
+    placeholder="ID Clase"
+    formControlName="idClase"
+  />
+
+  <input
+    type="datetime-local"
+    class="w-full rounded-lg border px-4 py-2"
+    formControlName="fechaReserva"
+  />
+
+  <select
+    class="w-full rounded-lg border px-4 py-2"
+    formControlName="estado"
+  >
+    <option value="ACTIVA">ACTIVA</option>
+    <option value="CANCELADA">CANCELADA</option>
+  </select>
+
+  <button
+    type="submit"
+    class="rounded-lg bg-slate-900 px-4 py-2 font-semibold text-white hover:bg-slate-800"
+  >
+    Guardar reserva
+  </button>
+</form>

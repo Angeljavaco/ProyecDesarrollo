@@ -1,0 +1,12 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="rounded-xl bg-white p-6 shadow space-y-4">
+  <h2 class="text-lg font-semibold text-slate-900">Crear usuario</h2>
+
+  <input class="w-full rounded-lg border px-4 py-2" placeholder="Nombre" formControlName="nombre" />
+  <input class="w-full rounded-lg border px-4 py-2" placeholder="Email" formControlName="email" />
+  <input class="w-full rounded-lg border px-4 py-2" placeholder="Password" type="password" formControlName="password" />
+  <input class="w-full rounded-lg border px-4 py-2" placeholder="Teléfono" formControlName="telefono" />
+
+  <button class="rounded-lg bg-slate-900 px-4 py-2 text-white font-semibold">
+    Guardar usuario
+  </button>
+</form>

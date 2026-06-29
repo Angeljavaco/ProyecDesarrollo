@@ -1,0 +1,66 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="rounded-xl bg-white p-6 shadow space-y-4">
+  <h2 class="text-lg font-semibold text-slate-900">
+    Asignar rol a usuario
+  </h2>
+
+  @if (isLoading) {
+    <p class="text-sm text-slate-500">Cargando datos...</p>
+  }
+
+  @if (successMessage) {
+    <div class="rounded-lg bg-green-50 p-3 text-sm text-green-700">
+      {{ successMessage }}
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="rounded-lg bg-red-50 p-3 text-sm text-red-700">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <div>
+    <label class="block text-sm font-medium text-slate-700">
+      Usuario
+    </label>
+
+    <select
+      formControlName="idUsuario"
+      class="mt-1 w-full rounded-lg border px-4 py-2"
+    >
+      <option [value]="0">Seleccione un usuario</option>
+
+      @for (usuario of usuarios; track usuario.id) {
+        <option [value]="usuario.id">
+          {{ usuario.nombre }} - {{ usuario.email }}
+        </option>
+      }
+    </select>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-slate-700">
+      Rol
+    </label>
+
+    <select
+      formControlName="idRol"
+      class="mt-1 w-full rounded-lg border px-4 py-2"
+    >
+      <option [value]="0">Seleccione un rol</option>
+
+      @for (rol of roles; track rol.id) {
+        <option [value]="rol.id">
+          {{ rol.nombre }}
+        </option>
+      }
+    </select>
+  </div>
+
+  <button
+    type="submit"
+    class="rounded-lg bg-slate-900 px-4 py-2 font-semibold text-white hover:bg-slate-800"
+  >
+    Asignar rol
+  </button>
+</form>

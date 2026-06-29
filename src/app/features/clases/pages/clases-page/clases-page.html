@@ -1,0 +1,81 @@
+<section class="space-y-6">
+  <div>
+    <h1 class="text-2xl font-bold text-slate-900">
+      Clases
+    </h1>
+    <p class="text-sm text-slate-500">
+      Gestión de clases disponibles en el gimnasio.
+    </p>
+  </div>
+
+  <app-clase-form
+    [claseSeleccionada]="claseSeleccionada"
+    (crearClase)="crearClase($event)"
+    (actualizarClase)="actualizarClase($event)"
+    (cancelarEdicion)="cancelarEdicion()"
+  />
+
+  @if (isLoading) {
+    <div class="rounded-lg bg-white p-4 shadow">
+      Cargando clases...
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="rounded-lg bg-red-50 p-4 text-red-700">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <div class="overflow-hidden rounded-xl bg-white shadow">
+    <table class="w-full text-left text-sm">
+      <thead class="bg-slate-900 text-white">
+        <tr>
+          <th class="px-4 py-3">ID</th>
+          <th class="px-4 py-3">Nombre</th>
+          <th class="px-4 py-3">Descripción</th>
+          <th class="px-4 py-3">Trainer</th>
+          <th class="px-4 py-3">Cupos</th>
+          <th class="px-4 py-3">Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (clase of clases; track clase.id) {
+          <tr class="border-b last:border-0 hover:bg-slate-50">
+            <td class="px-4 py-3">{{ clase.id }}</td>
+            <td class="px-4 py-3">{{ clase.nombre }}</td>
+            <td class="px-4 py-3">{{ clase.descripcion }}</td>
+            <td class="px-4 py-3">{{ clase.trainer }}</td>
+            <td class="px-4 py-3">{{ clase.cupos }}</td>
+            <td class="px-4 py-3">
+              <div class="flex gap-2">
+                <button
+                  type="button"
+                  (click)="seleccionarClase(clase)"
+                  class="rounded-lg bg-blue-600 px-3 py-1 text-sm font-semibold text-white hover:bg-blue-700"
+                >
+                  Editar
+                </button>
+
+                <button
+                  type="button"
+                  (click)="eliminarClase(clase.id)"
+                  class="rounded-lg bg-red-600 px-3 py-1 text-sm font-semibold text-white hover:bg-red-700"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="px-4 py-6 text-center text-slate-500">
+              No hay clases registradas.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

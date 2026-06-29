@@ -1,0 +1,56 @@
+<section class="space-y-6">
+  <div>
+    <h1 class="text-2xl font-bold text-slate-900">
+      Reservas
+    </h1>
+    <p class="text-sm text-slate-500">
+      Gestión de reservas de clases.
+    </p>
+  </div>
+
+  <app-reserva-form (crearReserva)="crearReserva($event)" />
+
+  @if (isLoading) {
+    <div class="rounded-lg bg-white p-4 shadow">
+      Cargando reservas...
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="rounded-lg bg-red-50 p-4 text-red-700">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <div class="overflow-hidden rounded-xl bg-white shadow">
+    <table class="w-full text-left text-sm">
+      <thead class="bg-slate-900 text-white">
+        <tr>
+          <th class="px-4 py-3">ID</th>
+          <th class="px-4 py-3">Usuario</th>
+          <th class="px-4 py-3">Clase</th>
+          <th class="px-4 py-3">Fecha</th>
+          <th class="px-4 py-3">Estado</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (reserva of reservas; track reserva.id) {
+          <tr class="border-b last:border-0 hover:bg-slate-50">
+            <td class="px-4 py-3">{{ reserva.id }}</td>
+            <td class="px-4 py-3">{{ reserva.idUsuario }}</td>
+            <td class="px-4 py-3">{{ reserva.idClase }}</td>
+            <td class="px-4 py-3">{{ reserva.fechaReserva }}</td>
+            <td class="px-4 py-3">{{ reserva.estado }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5" class="px-4 py-6 text-center text-slate-500">
+              No hay reservas registradas.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

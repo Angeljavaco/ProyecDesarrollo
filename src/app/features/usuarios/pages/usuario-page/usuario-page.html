@@ -1,0 +1,64 @@
+<section class="space-y-6">
+  <div>
+    <h1 class="text-2xl font-bold text-slate-900">
+      Usuarios
+    </h1>
+    <p class="text-sm text-slate-500">
+      Gestión de usuarios registrados en el sistema.
+    </p>
+  </div>
+
+  <app-usuario-form (crearUsuario)="crearUsuario($event)" />
+
+  @if (isLoading) {
+    <div class="rounded-lg bg-white p-4 shadow">
+      Cargando usuarios...
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="rounded-lg bg-red-50 p-4 text-red-700">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <div class="overflow-hidden rounded-xl bg-white shadow">
+    <table class="w-full text-left text-sm">
+      <thead class="bg-slate-900 text-white">
+        <tr>
+          <th class="px-4 py-3">ID</th>
+          <th class="px-4 py-3">Nombre</th>
+          <th class="px-4 py-3">Email</th>
+          <th class="px-4 py-3">Teléfono</th>
+          <th class="px-4 py-3">Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (usuario of usuarios; track usuario.id) {
+          <tr class="border-b last:border-0 hover:bg-slate-50">
+            <td class="px-4 py-3">{{ usuario.id }}</td>
+            <td class="px-4 py-3">{{ usuario.nombre }}</td>
+            <td class="px-4 py-3">{{ usuario.email }}</td>
+            <td class="px-4 py-3">{{ usuario.telefono }}</td>
+            <td class="px-4 py-3">
+              <button
+                type="button"
+                (click)="eliminarUsuario(usuario.id)"
+                class="rounded-lg bg-red-600 px-3 py-1 text-sm font-semibold text-white hover:bg-red-700"
+              >
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="5" class="px-4 py-6 text-center text-slate-500">
+              No hay usuarios registrados.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
