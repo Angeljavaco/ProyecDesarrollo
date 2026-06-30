@@ -1,37 +1,43 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="rounded-xl bg-white p-6 shadow space-y-4">
-  <h2 class="text-lg font-semibold text-slate-900">
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 shadow space-y-4"
+>
+  <h2 class="text-lg font-semibold text-white">
     {{ claseSeleccionada ? 'Editar clase' : 'Crear clase' }}
   </h2>
 
-  <input
-    class="w-full rounded-lg border px-4 py-2"
-    placeholder="Nombre"
-    formControlName="nombre"
-  />
+  <div class="grid gap-4 md:grid-cols-2">
+    <input
+      class="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-indigo-500"
+      placeholder="Nombre"
+      formControlName="nombre"
+    />
 
-  <input
-    class="w-full rounded-lg border px-4 py-2"
-    placeholder="Descripción"
-    formControlName="descripcion"
-  />
+    <input
+      class="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-indigo-500"
+      placeholder="Trainer"
+      formControlName="trainer"
+    />
 
-  <input
-    class="w-full rounded-lg border px-4 py-2"
-    placeholder="Trainer"
-    formControlName="trainer"
-  />
+    <input
+      class="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-indigo-500 md:col-span-2"
+      placeholder="Descripción"
+      formControlName="descripcion"
+    />
 
-  <input
-    class="w-full rounded-lg border px-4 py-2"
-    placeholder="Cupos"
-    type="number"
-    formControlName="cupos"
-  />
+    <input
+      class="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-indigo-500"
+      placeholder="Cupos"
+      type="number"
+      formControlName="cupos"
+    />
+  </div>
 
   <div class="flex gap-2">
     <button
       type="submit"
-      class="rounded-lg bg-slate-900 px-4 py-2 font-semibold text-white hover:bg-slate-800"
+      class="rounded-xl bg-indigo-600 px-5 py-3 font-semibold text-white hover:bg-indigo-500"
     >
       {{ claseSeleccionada ? 'Actualizar clase' : 'Guardar clase' }}
     </button>
@@ -40,7 +46,7 @@
       <button
         type="button"
         (click)="cancelar()"
-        class="rounded-lg bg-slate-200 px-4 py-2 font-semibold text-slate-700 hover:bg-slate-300"
+        class="rounded-xl border border-slate-700 px-5 py-3 font-semibold text-slate-300 hover:bg-slate-800"
       >
         Cancelar
       </button>

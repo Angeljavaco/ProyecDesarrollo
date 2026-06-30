@@ -1,39 +1,45 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="rounded-xl bg-white p-6 shadow space-y-4">
-  <h2 class="text-lg font-semibold text-slate-900">
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 shadow space-y-4"
+>
+  <h2 class="text-lg font-semibold text-white">
     Crear reserva
   </h2>
 
-  <input
-    type="number"
-    class="w-full rounded-lg border px-4 py-2"
-    placeholder="ID Usuario"
-    formControlName="idUsuario"
-  />
+  <div class="grid gap-4 md:grid-cols-2">
+    <input
+      type="number"
+      class="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-indigo-500"
+      placeholder="ID Usuario"
+      formControlName="idUsuario"
+    />
 
-  <input
-    type="number"
-    class="w-full rounded-lg border px-4 py-2"
-    placeholder="ID Clase"
-    formControlName="idClase"
-  />
+    <input
+      type="number"
+      class="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-indigo-500"
+      placeholder="ID Clase"
+      formControlName="idClase"
+    />
 
-  <input
-    type="datetime-local"
-    class="w-full rounded-lg border px-4 py-2"
-    formControlName="fechaReserva"
-  />
+    <input
+      type="datetime-local"
+      class="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-indigo-500"
+      formControlName="fechaReserva"
+    />
 
-  <select
-    class="w-full rounded-lg border px-4 py-2"
-    formControlName="estado"
-  >
-    <option value="ACTIVA">ACTIVA</option>
-    <option value="CANCELADA">CANCELADA</option>
-  </select>
+    <select
+      class="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-indigo-500"
+      formControlName="estado"
+    >
+      <option value="ACTIVA">ACTIVA</option>
+      <option value="CANCELADA">CANCELADA</option>
+    </select>
+  </div>
 
   <button
     type="submit"
-    class="rounded-lg bg-slate-900 px-4 py-2 font-semibold text-white hover:bg-slate-800"
+    class="rounded-xl bg-indigo-600 px-5 py-3 font-semibold text-white hover:bg-indigo-500"
   >
     Guardar reserva
   </button>

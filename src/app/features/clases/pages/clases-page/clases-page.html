@@ -1,11 +1,26 @@
 <section class="space-y-6">
   <div>
-    <h1 class="text-2xl font-bold text-slate-900">
-      Clases
-    </h1>
-    <p class="text-sm text-slate-500">
-      Gestión de clases disponibles en el gimnasio.
-    </p>
+    <p class="text-sm text-slate-400">Inicio / Clases</p>
+    <h1 class="mt-1 text-2xl font-bold text-white">Clases</h1>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-3">
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 shadow">
+      <p class="text-sm text-slate-400">Total clases</p>
+      <p class="mt-2 text-3xl font-bold text-white">{{ clases.length }}</p>
+    </div>
+
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 shadow">
+      <p class="text-sm text-slate-400">Cupos disponibles</p>
+      <p class="mt-2 text-3xl font-bold text-emerald-400">
+        {{ totalCupos }}
+      </p>
+    </div>
+
+    <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 shadow">
+      <p class="text-sm text-slate-400">Módulo</p>
+      <p class="mt-2 text-3xl font-bold text-indigo-400">Training</p>
+    </div>
   </div>
 
   <app-clase-form
@@ -16,44 +31,59 @@
   />
 
   @if (isLoading) {
-    <div class="rounded-lg bg-white p-4 shadow">
+    <div class="rounded-xl border border-slate-800 bg-slate-900 p-4 text-slate-300">
       Cargando clases...
     </div>
   }
 
   @if (errorMessage) {
-    <div class="rounded-lg bg-red-50 p-4 text-red-700">
+    <div class="rounded-xl border border-red-900 bg-red-950/40 p-4 text-red-300">
       {{ errorMessage }}
     </div>
   }
 
-  <div class="overflow-hidden rounded-xl bg-white shadow">
+  <div class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/70 shadow">
+    <div class="flex items-center justify-between border-b border-slate-800 p-5">
+      <div>
+        <h2 class="text-lg font-semibold text-white">Lista de clases</h2>
+        <p class="text-sm text-slate-400">Clases disponibles para reservas</p>
+      </div>
+    </div>
+
     <table class="w-full text-left text-sm">
-      <thead class="bg-slate-900 text-white">
+      <thead class="bg-slate-950/70 text-xs uppercase text-slate-400">
         <tr>
-          <th class="px-4 py-3">ID</th>
-          <th class="px-4 py-3">Nombre</th>
-          <th class="px-4 py-3">Descripción</th>
-          <th class="px-4 py-3">Trainer</th>
-          <th class="px-4 py-3">Cupos</th>
-          <th class="px-4 py-3">Acciones</th>
+          <th class="px-5 py-4">ID</th>
+          <th class="px-5 py-4">Nombre</th>
+          <th class="px-5 py-4">Descripción</th>
+          <th class="px-5 py-4">Trainer</th>
+          <th class="px-5 py-4">Cupos</th>
+          <th class="px-5 py-4">Acciones</th>
         </tr>
       </thead>
 
-      <tbody>
+      <tbody class="divide-y divide-slate-800">
         @for (clase of clases; track clase.id) {
-          <tr class="border-b last:border-0 hover:bg-slate-50">
-            <td class="px-4 py-3">{{ clase.id }}</td>
-            <td class="px-4 py-3">{{ clase.nombre }}</td>
-            <td class="px-4 py-3">{{ clase.descripcion }}</td>
-            <td class="px-4 py-3">{{ clase.trainer }}</td>
-            <td class="px-4 py-3">{{ clase.cupos }}</td>
-            <td class="px-4 py-3">
+          <tr class="text-slate-300 hover:bg-slate-800/60">
+            <td class="px-5 py-4">{{ clase.id }}</td>
+            <td class="px-5 py-4 font-medium text-white">{{ clase.nombre }}</td>
+            <td class="px-5 py-4">{{ clase.descripcion }}</td>
+            <td class="px-5 py-4">
+              <span class="rounded-lg bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-300">
+                {{ clase.trainer }}
+              </span>
+            </td>
+            <td class="px-5 py-4">
+              <span class="rounded-lg bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
+                {{ clase.cupos }} cupos
+              </span>
+            </td>
+            <td class="px-5 py-4">
               <div class="flex gap-2">
                 <button
                   type="button"
                   (click)="seleccionarClase(clase)"
-                  class="rounded-lg bg-blue-600 px-3 py-1 text-sm font-semibold text-white hover:bg-blue-700"
+                  class="rounded-lg border border-blue-500/40 px-3 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/10"
                 >
                   Editar
                 </button>
@@ -61,7 +91,7 @@
                 <button
                   type="button"
                   (click)="eliminarClase(clase.id)"
-                  class="rounded-lg bg-red-600 px-3 py-1 text-sm font-semibold text-white hover:bg-red-700"
+                  class="rounded-lg border border-red-500/40 px-3 py-1 text-sm font-medium text-red-300 hover:bg-red-500/10"
                 >
                   Eliminar
                 </button>
@@ -70,7 +100,7 @@
           </tr>
         } @empty {
           <tr>
-            <td colspan="6" class="px-4 py-6 text-center text-slate-500">
+            <td colspan="6" class="px-5 py-8 text-center text-slate-400">
               No hay clases registradas.
             </td>
           </tr>

@@ -1,65 +1,78 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="rounded-xl bg-white p-6 shadow space-y-4">
-  <h2 class="text-lg font-semibold text-slate-900">
-    Asignar rol a usuario
-  </h2>
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 shadow space-y-5"
+>
+  <div>
+    <h2 class="text-lg font-semibold text-white">
+      Asignar rol a usuario
+    </h2>
+    <p class="text-sm text-slate-400">
+      Selecciona un usuario y asígnale un rol del sistema.
+    </p>
+  </div>
 
   @if (isLoading) {
-    <p class="text-sm text-slate-500">Cargando datos...</p>
+    <div class="rounded-xl border border-slate-800 bg-slate-950 p-4 text-slate-300">
+      Cargando usuarios y roles...
+    </div>
   }
 
   @if (successMessage) {
-    <div class="rounded-lg bg-green-50 p-3 text-sm text-green-700">
+    <div class="rounded-xl border border-emerald-900 bg-emerald-950/40 p-4 text-emerald-300">
       {{ successMessage }}
     </div>
   }
 
   @if (errorMessage) {
-    <div class="rounded-lg bg-red-50 p-3 text-sm text-red-700">
+    <div class="rounded-xl border border-red-900 bg-red-950/40 p-4 text-red-300">
       {{ errorMessage }}
     </div>
   }
 
-  <div>
-    <label class="block text-sm font-medium text-slate-700">
-      Usuario
-    </label>
+  <div class="grid gap-4 md:grid-cols-2">
+    <div>
+      <label class="mb-2 block text-sm font-medium text-slate-300">
+        Usuario
+      </label>
 
-    <select
-      formControlName="idUsuario"
-      class="mt-1 w-full rounded-lg border px-4 py-2"
-    >
-      <option [value]="0">Seleccione un usuario</option>
+      <select
+        formControlName="idUsuario"
+        class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-indigo-500"
+      >
+        <option [value]="0">Seleccione un usuario</option>
 
-      @for (usuario of usuarios; track usuario.id) {
-        <option [value]="usuario.id">
-          {{ usuario.nombre }} - {{ usuario.email }}
-        </option>
-      }
-    </select>
-  </div>
+        @for (usuario of usuarios; track usuario.id) {
+          <option [value]="usuario.id">
+            {{ usuario.nombre }} - {{ usuario.email }}
+          </option>
+        }
+      </select>
+    </div>
 
-  <div>
-    <label class="block text-sm font-medium text-slate-700">
-      Rol
-    </label>
+    <div>
+      <label class="mb-2 block text-sm font-medium text-slate-300">
+        Rol
+      </label>
 
-    <select
-      formControlName="idRol"
-      class="mt-1 w-full rounded-lg border px-4 py-2"
-    >
-      <option [value]="0">Seleccione un rol</option>
+      <select
+        formControlName="idRol"
+        class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-indigo-500"
+      >
+        <option [value]="0">Seleccione un rol</option>
 
-      @for (rol of roles; track rol.id) {
-        <option [value]="rol.id">
-          {{ rol.nombre }}
-        </option>
-      }
-    </select>
+        @for (rol of roles; track rol.id) {
+          <option [value]="rol.id">
+            {{ rol.nombre }}
+          </option>
+        }
+      </select>
+    </div>
   </div>
 
   <button
     type="submit"
-    class="rounded-lg bg-slate-900 px-4 py-2 font-semibold text-white hover:bg-slate-800"
+    class="rounded-xl bg-indigo-600 px-5 py-3 font-semibold text-white hover:bg-indigo-500"
   >
     Asignar rol
   </button>

@@ -18,6 +18,14 @@ export class ReservasPage implements OnInit {
   isLoading = false;
   errorMessage = '';
 
+  get totalActivas(): number {
+    return this.reservas.filter(reserva => reserva.estado === 'ACTIVA').length;
+  }
+
+  get totalCanceladas(): number {
+    return this.reservas.filter(reserva => reserva.estado === 'CANCELADA').length;
+  }
+
   ngOnInit(): void {
     this.cargarReservas();
   }

@@ -1,1 +1,21 @@
-<p>navbar works!</p>
+<header class="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-800 bg-[#0b1120]/90 px-6 backdrop-blur">
+  <div>
+    <h2 class="text-sm font-semibold text-white">Panel de administración</h2>
+    <p class="text-xs text-slate-400">Gestión del gimnasio</p>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <div class="hidden text-right sm:block">
+      <p class="text-sm font-semibold text-white">Administrador</p>
+      <p class="text-xs text-slate-400">Super Admin</p>
+    </div>
+
+    <button
+      type="button"
+      (click)="logout()"
+      class="rounded-xl border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800"
+    >
+      Cerrar sesión
+    </button>
+  </div>
+</header>

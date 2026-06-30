@@ -1,1 +1,33 @@
-<p>sidebar works!</p>
+<aside class="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-slate-800 bg-[#0f172a] lg:block">
+  <div class="flex h-16 items-center border-b border-slate-800 px-6">
+    <div>
+      <h1 class="text-lg font-black tracking-wide text-white">
+        GYM <span class="text-indigo-400">SYSTEM</span>
+      </h1>
+      <p class="text-xs text-slate-400">Panel Administrativo</p>
+    </div>
+  </div>
+
+  <nav class="space-y-2 p-4 text-sm">
+    <a routerLink="/dashboard/usuarios" routerLinkActive="bg-indigo-600 text-white"
+      class="block rounded-xl px-4 py-3 font-medium text-slate-300 hover:bg-slate-800 hover:text-white">
+      Usuarios
+    </a>
+
+    <a routerLink="/dashboard/clases" routerLinkActive="bg-indigo-600 text-white"
+      class="block rounded-xl px-4 py-3 font-medium text-slate-300 hover:bg-slate-800 hover:text-white">
+      Clases
+    </a>
+
+    <a routerLink="/dashboard/reservas" routerLinkActive="bg-indigo-600 text-white"
+      class="block rounded-xl px-4 py-3 font-medium text-slate-300 hover:bg-slate-800 hover:text-white">
+      Reservas
+    </a>
+
+    <a routerLink="/dashboard/rol-usuario" routerLinkActive="bg-indigo-600 text-white"
+      class="block rounded-xl px-4 py-3 font-medium text-slate-300 hover:bg-slate-800 hover:text-white">
+      Asignar Roles
+    </a>
+  </nav>
+
+</aside>

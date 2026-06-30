@@ -3,7 +3,7 @@ export interface Clase {
     nombre: string;
     descripcion: string;
     trainer: string;
-    cupos: string;
+    cupos: number;
 }
 
 export interface CrearClaseRequest {

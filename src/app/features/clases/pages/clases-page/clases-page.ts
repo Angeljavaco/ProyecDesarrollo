@@ -20,6 +20,10 @@ export class ClasesPage implements OnInit{
   isLoading = false;
   errorMessage = "";
 
+  get totalCupos(): number {
+  return this.clases.reduce((total, clase) => total + (clase.cupos as number), 0);
+  }
+
   ngOnInit(): void {
     this.cargarClases();
   }
@@ -102,5 +106,5 @@ export class ClasesPage implements OnInit{
   cancelarEdicion(): void {
     this.claseSeleccionada = null;
     this.cdr.detectChanges();
-  }
+  } 
 }
