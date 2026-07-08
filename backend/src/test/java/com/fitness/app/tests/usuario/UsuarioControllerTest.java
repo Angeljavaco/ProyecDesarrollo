@@ -1,4 +1,4 @@
-package com.fitness.app.Usuario;
+package com.fitness.app.tests.usuario;
 
 import com.fitness.app.security.JwtService;
 import org.junit.jupiter.api.Test;

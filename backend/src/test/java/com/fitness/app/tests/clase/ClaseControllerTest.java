@@ -1,4 +1,4 @@
-package com.fitness.app.Clase;
+package com.fitness.app.tests.clase;
 
 import com.fitness.app.security.JwtService;
 import org.junit.jupiter.api.Test;

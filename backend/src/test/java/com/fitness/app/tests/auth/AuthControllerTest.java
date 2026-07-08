@@ -1,4 +1,4 @@
-package com.fitness.app.Auth;
+package com.fitness.app.tests.auth;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

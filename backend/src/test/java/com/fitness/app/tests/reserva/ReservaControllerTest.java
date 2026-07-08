@@ -1,4 +1,4 @@
-package com.fitness.app.Reserva;
+package com.fitness.app.tests.reserva;
 
 import com.fitness.app.security.JwtService;
 import org.junit.jupiter.api.Test;

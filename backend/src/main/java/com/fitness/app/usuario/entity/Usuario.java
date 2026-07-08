@@ -1,7 +1,13 @@
 package com.fitness.app.usuario.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fitness.app.reserva.entity.Reserva;
+import com.fitness.app.rolusuario.entity.RolUsuario;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "usuario")
@@ -23,6 +29,14 @@ public class Usuario {
 
     @NotBlank
     private String telefono;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reserva> reservas = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RolUsuario> rolesUsuario = new ArrayList<>();
 
     public Usuario() {
     }
@@ -65,5 +79,21 @@ public class Usuario {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
+    }
+
+    public List<RolUsuario> getRolesUsuario() {
+        return rolesUsuario;
+    }
+
+    public void setRolesUsuario(List<RolUsuario> rolesUsuario) {
+        this.rolesUsuario = rolesUsuario;
     }
 }

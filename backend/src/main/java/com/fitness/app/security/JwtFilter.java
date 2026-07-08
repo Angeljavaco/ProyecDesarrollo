@@ -80,7 +80,7 @@ public class JwtFilter extends OncePerRequestFilter {
                         .orElseThrow();
 
                 List<RolUsuario> rolesUsuario =
-                        rolUsuarioRepository.findByIdUsuario(usuario.getId());
+                        rolUsuarioRepository.findByUsuarioId(usuario.getId());
 
                 List<SimpleGrantedAuthority> authorities =
                         new ArrayList<>();

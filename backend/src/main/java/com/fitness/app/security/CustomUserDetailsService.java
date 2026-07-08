@@ -43,10 +43,10 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> {
                     log.warn("USER DETAILS - Usuario no encontrado para email={}", emailNormalizado);
                     return new UsernameNotFoundException("Usuario no encontrado");
-                });
+        });
 
         List<SimpleGrantedAuthority> authorities = rolUsuarioRepository
-                .findByIdUsuario(usuario.getId())
+                .findByUsuarioId(usuario.getId())
                 .stream()
                 .map(RolUsuario::getIdRol)
                 .map(rolRepository::findById)

@@ -2,6 +2,8 @@ package com.fitness.app.usuario.service;
 
 import com.fitness.app.usuario.entity.Usuario;
 import com.fitness.app.usuario.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,8 +51,13 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
+    @Transactional
     public void eliminarUsuario(int id) {
-        usuarioRepository.deleteById(id);
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con id " + id));
+
+        usuarioRepository.delete(usuario);
+        usuarioRepository.flush();
     }
 
     private boolean isBcryptHash(String password) {

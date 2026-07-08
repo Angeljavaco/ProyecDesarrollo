@@ -1,4 +1,4 @@
-package com.fitness.app.Auth;
+package com.fitness.app.tests.auth;
 
 import com.fitness.app.auth.dto.AuthRequest;
 import com.fitness.app.auth.dto.AuthResponse;
