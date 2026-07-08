@@ -1,0 +1,73 @@
+<section>
+  <h1 class="h3 mb-3">Formulario Crear Reserva</h1>
+  <p class="text-secondary">Consume <code>POST /api/reservas</code>. Tambien carga usuarios y clases para elegir IDs reales.</p>
+
+  <form class="form-panel" [formGroup]="form" (ngSubmit)="crearReserva()" novalidate>
+    @if (successMessage) {
+      <div class="alert alert-success">{{ successMessage }}</div>
+    }
+
+    @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    }
+
+    @if (loadingData) {
+      <div class="alert alert-info">Cargando usuarios y clases...</div>
+    }
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label required" for="idUsuario">Usuario</label>
+        <select id="idUsuario" class="form-select" formControlName="idUsuario">
+          <option [ngValue]="0">Selecciona un usuario</option>
+          @for (usuario of usuarios; track usuario.id) {
+            <option [ngValue]="usuario.id">{{ usuario.id }} - {{ usuario.nombre }}</option>
+          }
+        </select>
+        @if (isInvalid('idUsuario')) {
+          <div class="invalid-feedback d-block">Selecciona un usuario.</div>
+        }
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label required" for="idClase">Clase</label>
+        <select id="idClase" class="form-select" formControlName="idClase">
+          <option [ngValue]="0">Selecciona una clase</option>
+          @for (clase of clases; track clase.id) {
+            <option [ngValue]="clase.id">{{ clase.id }} - {{ clase.nombre }}</option>
+          }
+        </select>
+        @if (isInvalid('idClase')) {
+          <div class="invalid-feedback d-block">Selecciona una clase.</div>
+        }
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label required" for="fechaReserva">Fecha de reserva</label>
+        <input id="fechaReserva" class="form-control" type="date" formControlName="fechaReserva">
+        @if (isInvalid('fechaReserva')) {
+          <div class="invalid-feedback d-block">Selecciona una fecha.</div>
+        }
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label required" for="estado">Estado</label>
+        <select id="estado" class="form-select" formControlName="estado">
+          <option value="CONFIRMADA">CONFIRMADA</option>
+          <option value="PENDIENTE">PENDIENTE</option>
+          <option value="CANCELADA">CANCELADA</option>
+        </select>
+        @if (isInvalid('estado')) {
+          <div class="invalid-feedback d-block">Selecciona un estado.</div>
+        }
+      </div>
+    </div>
+
+    <button class="btn btn-primary mt-4" type="submit" [disabled]="loading">
+      {{ loading ? 'Guardando...' : 'Crear reserva' }}
+    </button>
+    <button class="btn btn-outline-secondary mt-4 ms-2" type="button" (click)="cargarDatos()" [disabled]="loadingData">
+      Recargar datos
+    </button>
+  </form>
+</section>

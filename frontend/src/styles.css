@@ -1,0 +1,23 @@
+body {
+  background: #f5f7fb;
+}
+
+.page-shell {
+  max-width: 1120px;
+}
+
+.form-panel {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.required::after {
+  content: " *";
+  color: #dc3545;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}

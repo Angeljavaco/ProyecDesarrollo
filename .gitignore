@@ -1,6 +1,7 @@
-/build/
-/.gradle/
-/out/
-/bin/
+backend/build/
+backend/.gradle/
+backend/out/
+backend/bin/
+backend/.env
+*.log
 *.logm
-.env
