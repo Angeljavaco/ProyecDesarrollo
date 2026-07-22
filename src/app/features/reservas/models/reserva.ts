@@ -1,14 +1,12 @@
 export interface Reserva {
-    id: number;
-    idUsuario: number;
-    idClase: number;
-    fechaReserva: string;
-    estado: string;
+  id: number;
+  activo: boolean;
+  usuarioId: number;
+  usuarioNombre: string;
+  claseId: number;
+  claseNombre: string;
 }
 
 export interface CrearReservaRequest {
-    idUsuario: number;
-    idClase: number;
-    fechaReserva: string;
-    estado: string;
+  claseId: number;
 }

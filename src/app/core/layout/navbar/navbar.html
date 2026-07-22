@@ -1,19 +1,51 @@
-<header class="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-800 bg-[#0b1120]/90 px-6 backdrop-blur">
-  <div>
-    <h2 class="text-sm font-semibold text-white">Panel de administración</h2>
-    <p class="text-xs text-slate-400">Gestión del gimnasio</p>
+<header
+  class="
+    sticky top-0 z-30
+    flex min-h-16
+    items-center justify-between
+    gap-4
+    border-b border-slate-800
+    bg-[#0b1120]/90
+    px-4 py-3
+    backdrop-blur
+    sm:px-6
+  "
+>
+  <div class="min-w-0">
+    <h2 class="truncate text-sm font-semibold text-white">
+      {{ panelTitle }}
+    </h2>
+
+    <p class="truncate text-xs text-slate-400">
+      {{ userDescription }}
+    </p>
   </div>
 
-  <div class="flex items-center gap-4">
-    <div class="hidden text-right sm:block">
-      <p class="text-sm font-semibold text-white">Administrador</p>
-      <p class="text-xs text-slate-400">Super Admin</p>
+  <div class="flex shrink-0 items-center gap-3">
+    <div class="hidden max-w-56 text-right sm:block">
+      <p class="truncate text-sm font-semibold text-white">
+        {{ userRoleName }}
+      </p>
+
+      <p class="truncate text-xs text-slate-400">
+        {{ userEmail }}
+      </p>
     </div>
 
     <button
       type="button"
       (click)="logout()"
-      class="rounded-xl border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800"
+      class="
+        rounded-xl
+        border border-slate-700
+        px-3 py-2
+        text-sm font-medium
+        text-slate-300
+        transition
+        hover:bg-slate-800
+        hover:text-white
+        sm:px-4
+      "
     >
       Cerrar sesión
     </button>

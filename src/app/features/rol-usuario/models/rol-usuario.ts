@@ -1,10 +1,10 @@
 export interface RolUsuario {
   id: number;
-  idUsuario: number;
-  idRol: number;
+  usuarioId: number;
+  rolId: number;
 }
 
 export interface AsignarRolRequest {
-  idUsuario: number;
-  idRol: number;
+  usuarioId: number;
+  rolId: number;
 }

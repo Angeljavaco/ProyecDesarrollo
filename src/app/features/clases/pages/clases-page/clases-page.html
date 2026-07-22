@@ -56,9 +56,11 @@
           <th class="px-5 py-4">ID</th>
           <th class="px-5 py-4">Nombre</th>
           <th class="px-5 py-4">Descripción</th>
-          <th class="px-5 py-4">Trainer</th>
           <th class="px-5 py-4">Cupos</th>
           <th class="px-5 py-4">Acciones</th>
+          <th class="px-5 py-4">Fecha</th>
+          <th class="px-5 py-4">Estado</th>
+          <th class="px-5 py-4">Trainer</th>
         </tr>
       </thead>
 
@@ -70,13 +72,28 @@
             <td class="px-5 py-4">{{ clase.descripcion }}</td>
             <td class="px-5 py-4">
               <span class="rounded-lg bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-300">
-                {{ clase.trainer }}
+                {{ clase.trainerNombre }}
               </span>
             </td>
             <td class="px-5 py-4">
               <span class="rounded-lg bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
                 {{ clase.cupos }} cupos
               </span>
+            </td>
+            <td class="px-5 py-4">
+              {{ clase.fecha }}
+            </td>
+
+            <td class="px-5 py-4">
+              <span
+                class="rounded-lg bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300"
+              >
+                {{ clase.estado }}
+              </span>
+            </td>
+
+            <td class="px-5 py-4">
+              {{ clase.trainerNombre }}
             </td>
             <td class="px-5 py-4">
               <div class="flex gap-2">

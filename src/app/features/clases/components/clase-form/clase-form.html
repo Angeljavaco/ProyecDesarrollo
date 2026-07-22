@@ -1,52 +1,146 @@
 <form
   [formGroup]="form"
   (ngSubmit)="onSubmit()"
-  class="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 shadow space-y-4"
+  class="space-y-4 rounded-2xl border border-slate-800 bg-slate-900/70 p-6 shadow"
 >
-  <h2 class="text-lg font-semibold text-white">
-    {{ claseSeleccionada ? 'Editar clase' : 'Crear clase' }}
-  </h2>
+  <div>
+    <h2 class="text-lg font-semibold text-white">
+      {{
+        claseSeleccionada
+          ? 'Editar clase'
+          : 'Programar nueva clase'
+      }}
+    </h2>
+
+    <p class="mt-1 text-sm text-slate-400">
+      El trainer se obtiene automáticamente
+      de la sesión autenticada.
+    </p>
+  </div>
 
   <div class="grid gap-4 md:grid-cols-2">
-    <input
-      class="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-indigo-500"
-      placeholder="Nombre"
-      formControlName="nombre"
-    />
+    <div>
+      <label
+        for="nombre"
+        class="mb-2 block text-sm text-slate-300"
+      >
+        Nombre
+      </label>
 
-    <input
-      class="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-indigo-500"
-      placeholder="Trainer"
-      formControlName="trainer"
-    />
+      <input
+        id="nombre"
+        type="text"
+        formControlName="nombre"
+        placeholder="Entrenamiento funcional"
+        class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-indigo-500"
+      />
 
-    <input
-      class="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-indigo-500 md:col-span-2"
-      placeholder="Descripción"
-      formControlName="descripcion"
-    />
+      @if (
+        form.controls.nombre.touched &&
+        form.controls.nombre.invalid
+      ) {
+        <p class="mt-1 text-sm text-red-400">
+          Ingresa un nombre de al menos 3 caracteres.
+        </p>
+      }
+    </div>
 
-    <input
-      class="rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-indigo-500"
-      placeholder="Cupos"
-      type="number"
-      formControlName="cupos"
-    />
+    <div>
+      <label
+        for="cupos"
+        class="mb-2 block text-sm text-slate-300"
+      >
+        Cupos
+      </label>
+
+      <input
+        id="cupos"
+        type="number"
+        min="1"
+        formControlName="cupos"
+        class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-indigo-500"
+      />
+
+      @if (
+        form.controls.cupos.touched &&
+        form.controls.cupos.invalid
+      ) {
+        <p class="mt-1 text-sm text-red-400">
+          Debe existir al menos un cupo.
+        </p>
+      }
+    </div>
+
+    <div>
+      <label
+        for="fecha"
+        class="mb-2 block text-sm text-slate-300"
+      >
+        Fecha
+      </label>
+
+      <input
+        id="fecha"
+        type="date"
+        formControlName="fecha"
+        class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-indigo-500"
+      />
+
+      @if (
+        form.controls.fecha.touched &&
+        form.controls.fecha.invalid
+      ) {
+        <p class="mt-1 text-sm text-red-400">
+          Selecciona la fecha de la clase.
+        </p>
+      }
+    </div>
+
+    <div class="md:col-span-2">
+      <label
+        for="descripcion"
+        class="mb-2 block text-sm text-slate-300"
+      >
+        Descripción
+      </label>
+
+      <textarea
+        id="descripcion"
+        rows="3"
+        formControlName="descripcion"
+        placeholder="Describe el contenido de la clase"
+        class="w-full resize-none rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-indigo-500"
+      ></textarea>
+
+      @if (
+        form.controls.descripcion.touched &&
+        form.controls.descripcion.invalid
+      ) {
+        <p class="mt-1 text-sm text-red-400">
+          La descripción debe tener al menos 5 caracteres.
+        </p>
+      }
+    </div>
   </div>
 
   <div class="flex gap-2">
     <button
       type="submit"
-      class="rounded-xl bg-indigo-600 px-5 py-3 font-semibold text-white hover:bg-indigo-500"
+      class="rounded-xl bg-indigo-600 px-5 py-3 font-semibold text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
+      [disabled]="form.invalid"
     >
-      {{ claseSeleccionada ? 'Actualizar clase' : 'Guardar clase' }}
+      {{
+        claseSeleccionada
+          ? 'Actualizar clase'
+          : 'Programar clase'
+      }}
     </button>
 
     @if (claseSeleccionada) {
       <button
         type="button"
         (click)="cancelar()"
-        class="rounded-xl border border-slate-700 px-5 py-3 font-semibold text-slate-300 hover:bg-slate-800"
+        class="rounded-xl border border-slate-700 px-5 py-3 font-semibold text-slate-300 transition hover:bg-slate-800"
       >
         Cancelar
       </button>

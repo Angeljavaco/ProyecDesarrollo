@@ -1,11 +1,13 @@
-<div class="min-h-screen bg-[#0b1120] text-slate-100">
+<div class="min-h-screen overflow-x-hidden bg-[#0b1120] text-slate-100">
   <app-sidebar />
 
-  <div class="min-h-screen lg:ml-64">
+  <div class="min-h-screen w-full lg:pl-64">
     <app-navbar />
 
-    <main class="p-6">
-      <router-outlet />
+    <main class="w-full p-4 sm:p-6 lg:p-8">
+      <div class="mx-auto w-full max-w-7xl">
+        <router-outlet />
+      </div>
     </main>
   </div>
 </div>

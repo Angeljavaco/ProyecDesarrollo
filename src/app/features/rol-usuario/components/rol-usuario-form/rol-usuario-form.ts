@@ -76,10 +76,14 @@ export class RolUsuarioForm implements OnInit {
     this.errorMessage = '';
 
     const data = {
-      idUsuario: Number(this.form.controls.idUsuario.value),
-      idRol: Number(this.form.controls.idRol.value)
+      usuarioId: Number(
+        this.form.controls.idUsuario.value
+      ),
+      rolId: Number(
+        this.form.controls.idRol.value
+      )
     };
-
+    
     this.rolUsuarioService.asignar(data).subscribe({
       next: () => {
         this.successMessage = 'Rol asignado correctamente.';

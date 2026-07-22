@@ -5,6 +5,7 @@ import { ClaseForm } from '../../components/clase-form/clase-form';
 import { ClaseService } from '../../services/clase';
 
 import { ActualizarClaseRequest, Clase, CrearClaseRequest } from '../../models/clase';
+import { AuthService } from '../../../auth/services/auth';
 
 @Component({
   selector: 'app-clases-page',
@@ -14,6 +15,7 @@ import { ActualizarClaseRequest, Clase, CrearClaseRequest } from '../../models/c
 export class ClasesPage implements OnInit{
   private readonly claseService = inject(ClaseService);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly authService = inject(AuthService)
 
   clases: Clase[] = [];
   claseSeleccionada: Clase | null = null;
@@ -31,16 +33,27 @@ export class ClasesPage implements OnInit{
   cargarClases(): void {
     this.isLoading = true;
     this.errorMessage = '';
-  
-    this.claseService.listar().subscribe({
-      next: (clases) => {
-        this.clases = [...clases].sort((a, b) => a.id - b.id);
+
+    const request$ =
+      this.authService.hasRole('ADMIN')
+        ? this.claseService.listar()
+        : this.claseService.listarMisClases();
+
+    request$.subscribe({
+      next: clases => {
+        this.clases = clases;
         this.isLoading = false;
         this.cdr.detectChanges();
       },
-      error: (error) => {
-        console.error("ERROR AL CARGAR CLASES:", error);
-        this.errorMessage = "No se pudieron cargar las clases...";
+      error: error => {
+        console.error(
+          'ERROR AL CARGAR CLASES:',
+          error
+        );
+
+        this.errorMessage =
+          'No se pudieron cargar las clases.';
+
         this.isLoading = false;
         this.cdr.detectChanges();
       }
@@ -48,16 +61,26 @@ export class ClasesPage implements OnInit{
   }
 
   crearClase(data: CrearClaseRequest): void {
+    this.errorMessage = '';
+
     this.claseService.crear(data).subscribe({
       next: () => {
+        this.claseSeleccionada = null;
         this.cargarClases();
       },
       error: (error) => {
-        console.error("ERROR AL CREAR CLASE:", error);
-        this.errorMessage = 'No se pudo crear la clase.';
+        console.error(
+          'ERROR AL PROGRAMAR CLASE:',
+          error
+        );
+
+        this.errorMessage =
+          error?.error?.error ??
+          'No se pudo programar la clase.';
+
         this.cdr.detectChanges();
       }
-    })
+    });
   }
 
   seleccionarClase(clase: Clase): void {

@@ -31,16 +31,24 @@ export class Login {
     }
 
     this.isLoading = true;
-    this.errorMessage = "";
+    this.errorMessage = '';
 
-    this.authService.login(this.loginForm.getRawValue()).subscribe({
-      next: () => {
-        this.router.navigateByUrl("/dashboard");
-      },
-      error: () => {
-        this.errorMessage = "Credenciales incorrectas o servidor no disponible";
-        this.isLoading = false;
-      }
-    });
+    this.authService
+      .login(this.loginForm.getRawValue())
+      .subscribe({
+        next: () => {
+          const destination =
+            this.authService
+              .getDefaultDashboardRoute();
+
+          this.router.navigateByUrl(destination);
+        },
+        error: () => {
+          this.errorMessage =
+            'Credenciales incorrectas o servidor no disponible';
+
+          this.isLoading = false;
+        }
+      });
   }
 }

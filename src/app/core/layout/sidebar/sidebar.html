@@ -1,33 +1,134 @@
-<aside class="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-slate-800 bg-[#0f172a] lg:block">
+<aside
+  class="
+    fixed inset-y-0 left-0 z-40
+    hidden w-64
+    flex-col
+    border-r border-slate-800
+    bg-slate-950
+    lg:flex
+  "
+>
   <div class="flex h-16 items-center border-b border-slate-800 px-6">
     <div>
-      <h1 class="text-lg font-black tracking-wide text-white">
-        GYM <span class="text-indigo-400">SYSTEM</span>
+      <h1 class="text-lg font-bold text-white">
+        Gym Manager
       </h1>
-      <p class="text-xs text-slate-400">Panel Administrativo</p>
+
+      <p class="text-xs text-slate-400">
+        Sistema de gestión
+      </p>
     </div>
   </div>
 
-  <nav class="space-y-2 p-4 text-sm">
-    <a routerLink="/dashboard/usuarios" routerLinkActive="bg-indigo-600 text-white"
-      class="block rounded-xl px-4 py-3 font-medium text-slate-300 hover:bg-slate-800 hover:text-white">
-      Usuarios
-    </a>
+  <div class="flex-1 overflow-y-auto p-4">
+    <nav class="space-y-2">
 
-    <a routerLink="/dashboard/clases" routerLinkActive="bg-indigo-600 text-white"
-      class="block rounded-xl px-4 py-3 font-medium text-slate-300 hover:bg-slate-800 hover:text-white">
-      Clases
-    </a>
+      @if (authService.hasRole('ADMIN')) {
+        <a
+          routerLink="/dashboard/usuarios"
+          routerLinkActive="bg-indigo-600 text-white"
+          class="
+            flex items-center gap-3
+            rounded-xl px-4 py-3
+            text-slate-300
+            transition
+            hover:bg-slate-800
+            hover:text-white
+          "
+        >
+          Usuarios
+        </a>
+      }
 
-    <a routerLink="/dashboard/reservas" routerLinkActive="bg-indigo-600 text-white"
-      class="block rounded-xl px-4 py-3 font-medium text-slate-300 hover:bg-slate-800 hover:text-white">
-      Reservas
-    </a>
+      @if (
+        authService.hasRole('TRAINER') ||
+        authService.hasRole('ADMIN')
+      ) {
+        <a
+          routerLink="/dashboard/clases"
+          routerLinkActive="bg-indigo-600 text-white"
+          class="
+            flex items-center gap-3
+            rounded-xl px-4 py-3
+            text-slate-300
+            transition
+            hover:bg-slate-800
+            hover:text-white
+          "
+        >
+          Clases
+        </a>
 
-    <a routerLink="/dashboard/rol-usuario" routerLinkActive="bg-indigo-600 text-white"
-      class="block rounded-xl px-4 py-3 font-medium text-slate-300 hover:bg-slate-800 hover:text-white">
-      Asignar Roles
-    </a>
-  </nav>
+        <a
+          routerLink="/dashboard/reportes"
+          routerLinkActive="bg-indigo-600 text-white"
+          class="
+            flex items-center gap-3
+            rounded-xl px-4 py-3
+            text-slate-300
+            transition
+            hover:bg-slate-800
+            hover:text-white
+          "
+        >
+          Reportes
+        </a>
+      }
 
+      @if (authService.hasRole('ADMIN')) {
+        <a
+          routerLink="/dashboard/reservas"
+          routerLinkActive="bg-indigo-600 text-white"
+          class="
+            flex items-center gap-3
+            rounded-xl px-4 py-3
+            text-slate-300
+            transition
+            hover:bg-slate-800
+            hover:text-white
+          "
+        >
+          Reservas
+        </a>
+      }
+
+      @if (
+        authService.hasRole('MEMBER') &&
+        !authService.hasRole('ADMIN')
+      ) {
+        <a
+          routerLink="/dashboard/reservas"
+          routerLinkActive="bg-indigo-600 text-white"
+          class="
+            flex items-center gap-3
+            rounded-xl px-4 py-3
+            text-slate-300
+            transition
+            hover:bg-slate-800
+            hover:text-white
+          "
+        >
+          Mis reservas
+        </a>
+      }
+
+      @if (authService.hasRole('ADMIN')) {
+        <a
+          routerLink="/dashboard/rol-usuario"
+          routerLinkActive="bg-indigo-600 text-white"
+          class="
+            flex items-center gap-3
+            rounded-xl px-4 py-3
+            text-slate-300
+            transition
+            hover:bg-slate-800
+            hover:text-white
+          "
+        >
+          Roles de usuario
+        </a>
+      }
+
+    </nav>
+  </div>
 </aside>
