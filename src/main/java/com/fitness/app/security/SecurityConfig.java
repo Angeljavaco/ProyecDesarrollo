@@ -36,35 +36,30 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/api/auth/**")
-                        .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/reservas/mis-reservas").hasRole("MEMBER")
+                        .requestMatchers(HttpMethod.POST, "/api/reservas/**").hasRole("MEMBER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/reservas/**").hasRole("MEMBER")
+                        .requestMatchers(HttpMethod.GET, "/api/reservas").hasAnyRole("ADMIN", "TRAINER")
 
-                        .requestMatchers(HttpMethod.POST
-                            ,"/api/usuarios").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/clases/mis-clases").hasRole("TRAINER")
+                        .requestMatchers(HttpMethod.POST, "/api/clases/**").hasAnyRole("TRAINER")
+                        .requestMatchers(HttpMethod.PUT, "/api/clases/**").hasAnyRole("TRAINER")
+                        .requestMatchers(HttpMethod.GET, "/api/reportes/**").hasRole("TRAINER")
+                        .requestMatchers(HttpMethod.GET, "/api/clases/disponibles").hasAnyRole("ADMIN", "TRAINER", "MEMBER")
+                        .requestMatchers(HttpMethod.GET, "/api/clases").hasAnyRole("ADMIN", "TRAINER", "MEMBER")
 
-                        .requestMatchers("/api/roles/**")
-                        .hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/clases/**").hasRole("ADMIN")
+                        .requestMatchers("/api/roles/**").hasRole("ADMIN")
+                        .requestMatchers("/api/rol-usuario/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/usuarios").hasRole("ADMIN")
 
-                        .requestMatchers("/api/rol-usuario/**")
-                        .hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.DELETE, "/api/usuarios/**")
-                        .hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.POST, "/api/clases/**")
-                        .hasAnyRole("TRAINER", "ADMIN")
-
-                        .requestMatchers(HttpMethod.PUT, "/api/clases/**")
-                        .hasAnyRole("TRAINER", "ADMIN")
-
-                        .requestMatchers(HttpMethod.POST, "/api/reservas/**")
-                        .hasAnyRole("MEMBER", "ADMIN")
-
-                        .anyRequest()
-                        .authenticated()
+                        .anyRequest().authenticated()
                 );
-
         http.addFilterBefore(
                 jwtFilter,
                 UsernamePasswordAuthenticationFilter.class

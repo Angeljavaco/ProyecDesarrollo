@@ -1,8 +1,12 @@
 package com.fitness.app.clase.entity;
 
 import jakarta.persistence.*;
+import com.fitness.app.usuario.entity.Usuario;
+
+import java.time.LocalDate;
 
 @Entity
+@Table(name = "clase")
 public class Clase {
 
     @Id
@@ -13,9 +17,22 @@ public class Clase {
 
     private String descripcion;
 
-    private String trainer;
+    @ManyToOne
+    @JoinColumn(name = "trainer_id", nullable = false)
+    private Usuario trainer;
 
     private int cupos;
+
+    private boolean activo = true;
+
+    @Column(nullable = false)
+    private LocalDate fecha;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoClase estado = EstadoClase.PROGRAMADA;
+
+    public Clase() {}
 
     public int getId() {
         return id;
@@ -41,12 +58,20 @@ public class Clase {
         this.descripcion = descripcion;
     }
 
-    public String getTrainer() {
+    public Usuario getTrainer() {
         return trainer;
     }
 
-    public void setTrainer(String trainer) {
+    public void setTrainer(Usuario trainer) {
         this.trainer = trainer;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
     public int getCupos() {
@@ -55,5 +80,21 @@ public class Clase {
 
     public void setCupos(int cupos) {
         this.cupos = cupos;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public EstadoClase getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoClase estado) {
+        this.estado = estado;
     }
 }

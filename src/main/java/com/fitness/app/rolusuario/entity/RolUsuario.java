@@ -1,6 +1,8 @@
 package com.fitness.app.rolusuario.entity;
 
 import jakarta.persistence.*;
+import com.fitness.app.usuario.entity.Usuario;
+import com.fitness.app.rol.entity.Rol;
 
 @Entity
 @Table(name = "rol_usuario")
@@ -10,9 +12,16 @@ public class RolUsuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int idUsuario;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 
-    private int idRol;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "rol_id", nullable = false)
+    private Rol rol;
+
+    @Column(nullable = false)
+    private boolean activo = true;
 
     public RolUsuario() {
     }
@@ -25,19 +34,27 @@ public class RolUsuario {
         this.id = id;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public int getIdRol() {
-        return idRol;
+    public Rol getRol() {
+        return rol;
     }
 
-    public void setIdRol(int idRol) {
-        this.idRol = idRol;
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 }

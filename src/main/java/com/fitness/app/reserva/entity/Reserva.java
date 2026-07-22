@@ -1,6 +1,11 @@
 package com.fitness.app.reserva.entity;
 
 import jakarta.persistence.*;
+import com.fitness.app.usuario.entity.Usuario;
+import com.fitness.app.clase.entity.Clase;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDateTime;
 
 @Entity
 public class Reserva {
@@ -9,13 +14,28 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int idUsuario;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 
-    private int idClase;
+    @ManyToOne
+    @JoinColumn(name = "clase_id", nullable = false)
+    private Clase clase;
 
-    private String fechaReserva;
+    @Column(
+            name = "fecha_reserva",
+            nullable = false
+    )
+    private LocalDateTime fechaReserva =
+            LocalDateTime.now();
 
-    private String estado;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoReserva estado =
+            EstadoReserva.CONFIRMADA;
+
+    @Column(nullable = false)
+    private boolean activo = true;
 
     public int getId() {
         return id;
@@ -25,35 +45,43 @@ public class Reserva {
         this.id = id;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public int getIdClase() {
-        return idClase;
+    public Clase getClase() {
+        return clase;
     }
 
-    public void setIdClase(int idClase) {
-        this.idClase = idClase;
+    public void setClase(Clase clase) {
+        this.clase = clase;
     }
 
-    public String getFechaReserva() {
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    public LocalDateTime getFechaReserva() {
         return fechaReserva;
     }
 
-    public void setFechaReserva(String fechaReserva) {
+    public void setFechaReserva(LocalDateTime fechaReserva) {
         this.fechaReserva = fechaReserva;
     }
 
-    public String getEstado() {
+    public EstadoReserva getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoReserva estado) {
         this.estado = estado;
     }
 }
